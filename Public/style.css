@@ -1,0 +1,20 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap');
+
+* { margin:0; padding:0; box-sizing:border-box; font-family:'Nunito',sans-serif; }
+body { background: linear-gradient(135deg,#ff416c,#ff4b2b); color:#fff; min-height:100vh; display:flex; flex-direction:column; }
+header { text-align:center; padding:25px; background:rgba(255,255,255,0.15); backdrop-filter:blur(8px);}
+h1 { font-size:2.2rem; letter-spacing:1px;}
+nav { display:flex; justify-content:center; gap:20px; padding:15px; background:rgba(255,255,255,0.1);}
+nav a { color:#fff; text-decoration:none; font-weight:700; padding:8px 15px; border-radius:8px; transition:0.3s; }
+nav a:hover { background:#ff3b5f; color:#fff; transform:scale(1.05); }
+main { flex:1; padding:30px; display:flex; flex-direction:column; align-items:center; gap:40px;}
+section { width:90%; max-width:900px; background:rgba(255,255,255,0.15); padding:25px; border-radius:15px; backdrop-filter:blur(10px);}
+h2 { text-align:center; margin-bottom:15px;}
+table { width:100%; border-collapse:collapse; margin-top:10px; }
+th, td { padding:10px; border-bottom:1px solid rgba(255,255,255,0.2); text-align:left;}
+th { background:rgba(255,255,255,0.25); color:#fff; }
+form { display:flex; flex-wrap:wrap; justify-content:center; gap:10px; margin-top:10px;}
+input, select { padding:8px; border-radius:6px; border:none; outline:none; width:150px;}
+button { background:white; color:#ff3b5f; border:none; border-radius:10px; padding:10px 20px; font-weight:700; cursor:pointer; transition:0.3s;}
+button:hover { background:#ff3b5f; color:#fff; transform:scale(1.05);}
+footer { background:rgba(255,255,255,0.15); text-align:center; padding:10px; font-size:14px;}

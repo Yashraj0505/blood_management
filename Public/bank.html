@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Blood Banks</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<header><h1>🏥 Blood Banks</h1></header>
+
+<nav>
+  <a href="index.html">Home</a>
+  <a href="donor.html">Donors</a>
+  <a href="recipient.html">Recipients</a>
+  <a href="stock.html">Blood Stock</a>
+  <a href="donation.html">Donations</a>
+</nav>
+
+<main>
+  <section>
+    <h2>Blood Bank List</h2>
+    <div id="bankTable"></div>
+    <button onclick="loadBanks()">Refresh Banks</button>
+  </section>
+
+  <section>
+    <h2>➕ Add New Blood Bank</h2>
+    <form id="bankForm">
+      <input type="text" name="name" placeholder="Bank Name" required />
+      <input type="text" name="location" placeholder="Location" required />
+      <input type="text" name="contact" placeholder="Contact" required />
+      <button type="submit">Add Bank</button>
+    </form>
+    <p id="bankMessage"></p>
+  </section>
+</main>
+
+<footer>© 2025 Blood Donation System</footer>
+
+<script src="script.js"></script>
+<script>
+async function loadBanks() {
+  const res = await fetch("http://localhost:5000/banks");
+  const data = await res.json();
+  renderTable("bankTable", data);
+}
+
+document.getElementById("bankForm").addEventListener("submit", async e => {
+  e.preventDefault();
+  const bank = Object.fromEntries(new FormData(e.target).entries());
+  const res = await fetch("http://localhost:5000/add-bank", {
+    method: "POST",
+    headers: {"Content-Type":"application/json"},
+    body: JSON.stringify(bank)
+  });
+  const msg = await res.text();
+  document.getElementById("bankMessage").innerText = msg;
+  e.target.reset();
+  loadBanks();
+});
+
+loadBanks();
+</script>
+</body>
+</html>

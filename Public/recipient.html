@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Recipients - Blood Donation System</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<header>
+  <h1>❤️ Recipients</h1>
+</header>
+
+<nav>
+  <a href="index.html">Home</a>
+  <a href="donor.html">Donors</a>
+  <a href="bank.html">Blood Banks</a>
+  <a href="stock.html">Blood Stock</a>
+  <a href="donation.html">Donations</a>
+</nav>
+
+<main>
+  <section>
+    <h2>Recipient List</h2>
+    <div id="recipientTable"></div>
+    <button onclick="loadRecipients()">Refresh Recipients</button>
+  </section>
+
+  <section>
+    <h2>➕ Add New Recipient</h2>
+    <form id="recipientForm">
+      <input type="text" name="name" placeholder="Name" required />
+      <input type="number" name="age" placeholder="Age" required />
+      <input type="text" name="blood_group" placeholder="Blood Group" required />
+      <input type="text" name="hospital" placeholder="Hospital" required />
+      <input type="text" name="contact" placeholder="Contact" required />
+      <button type="submit">Add Recipient</button>
+    </form>
+    <p id="recipientMessage"></p>
+  </section>
+</main>
+
+<footer>
+  <p>© 2025 Blood Donation System | Made by Yashraj 💉</p>
+</footer>
+
+<script src="script.js"></script>
+<script>
+loadRecipients();
+
+document.getElementById("recipientForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const recipient = Object.fromEntries(new FormData(e.target).entries());
+  const res = await fetch("http://localhost:5000/add-recipient", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(recipient),
+  });
+  const msg = await res.text();
+  document.getElementById("recipientMessage").innerText = msg;
+  e.target.reset();
+  loadRecipients();
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Blood Stock</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<header><h1>🩸 Blood Stock</h1></header>
+
+<nav>
+  <a href="index.html">Home</a>
+  <a href="donor.html">Donors</a>
+  <a href="recipient.html">Recipients</a>
+  <a href="bank.html">Blood Banks</a>
+  <a href="donation.html">Donations</a>
+</nav>
+
+<main>
+  <section>
+    <h2>Stock List</h2>
+    <div id="stockTable"></div>
+    <button onclick="loadStock()">Refresh Stock</button>
+  </section>
+
+  <section>
+    <h2>➕ Update Blood Stock</h2>
+    <form id="stockForm">
+      <input type="number" name="bank_id" placeholder="Bank ID" required />
+      <input type="text" name="blood_group" placeholder="Blood Group" required />
+      <input type="number" name="units_available" placeholder="Units Available" required />
+      <button type="submit">Update Stock</button>
+    </form>
+    <p id="stockMessage"></p>
+  </section>
+</main>
+
+<footer>© 2025 Blood Donation System | Made by Yashraj 💉</footer>
+
+<script src="script.js"></script>
+<script>
+async function loadStock() {
+  const res = await fetch("http://localhost:5000/stock");
+  const data = await res.json();
+  renderTable("stockTable", data);
+}
+
+document.getElementById("stockForm").addEventListener("submit", async e => {
+  e.preventDefault();
+  const stock = Object.fromEntries(new FormData(e.target).entries());
+  const res = await fetch("http://localhost:5000/update-stock", {
+    method: "POST",
+    headers: {"Content-Type":"application/json"},
+    body: JSON.stringify(stock)
+  });
+  const msg = await res.text();
+  document.getElementById("stockMessage").innerText = msg;
+  e.target.reset();
+  loadStock();
+});
+
+loadStock();
+</script>
+</body>
+</html>

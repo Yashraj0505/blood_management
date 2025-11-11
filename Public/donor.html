@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Donors - Blood Donation System</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<header>
+  <h1>❤️ Donors</h1>
+</header>
+
+<nav>
+  <a href="index.html">Home</a>
+  <a href="recipient.html">Recipients</a>
+  <a href="bank.html">Blood Banks</a>
+  <a href="stock.html">Blood Stock</a>
+  <a href="donation.html">Donations</a>
+</nav>
+
+<main>
+  <section>
+    <h2>Donor List</h2>
+    <div id="donorTable"></div>
+    <button onclick="loadDonors()">Refresh Donors</button>
+  </section>
+
+  <section>
+    <h2>➕ Add New Donor</h2>
+    <form id="donorForm">
+      <input type="text" name="name" placeholder="Name" required />
+      <input type="number" name="age" placeholder="Age" required />
+      <input type="text" name="gender" placeholder="Gender" required />
+      <input type="text" name="blood_group" placeholder="Blood Group" required />
+      <input type="text" name="contact" placeholder="Contact" required />
+      <input type="text" name="city" placeholder="City" required />
+      <button type="submit">Add Donor</button>
+    </form>
+    <p id="donorMessage"></p>
+  </section>
+</main>
+
+<footer>
+  <p>© 2025 Blood Donation System | Made by Yashraj 💉</p>
+</footer>
+
+<script src="script.js"></script>
+<script>
+loadDonors();
+
+document.getElementById("donorForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const donor = Object.fromEntries(new FormData(e.target).entries());
+  const res = await fetch("http://localhost:5000/add-donor", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(donor),
+  });
+  const msg = await res.text();
+  document.getElementById("donorMessage").innerText = msg;
+  e.target.reset();
+  loadDonors();
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Donations</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<header><h1>💉 Donations</h1></header>
+
+<nav>
+  <a href="index.html">Home</a>
+  <a href="donor.html">Donors</a>
+  <a href="recipient.html">Recipients</a>
+  <a href="bank.html">Blood Banks</a>
+  <a href="stock.html">Blood Stock</a>
+</nav>
+
+<main>
+  <section>
+    <h2>Donation List</h2>
+    <div id="donationTable"></div>
+    <button onclick="loadDonations()">Refresh Donations</button>
+  </section>
+
+  <section>
+    <h2>➕ Add Donation</h2>
+    <form id="donationForm">
+      <input type="number" name="donor_id" placeholder="Donor ID" required />
+      <input type="number" name="bank_id" placeholder="Bank ID" required />
+      <input type="number" name="recipient_id" placeholder="Recipient ID (optional)" />
+      <input type="number" name="units_donated" placeholder="Units Donated" required />
+      <input type="date" name="donation_date" placeholder="Donation Date" required />
+      <button type="submit">Add Donation</button>
+    </form>
+    <p id="donationMessage"></p>
+  </section>
+</main>
+
+<footer>© 2025 Blood Donation System</footer>
+
+<script src="script.js"></script>
+<script>
+async function loadDonations() {
+  const res = await fetch("http://localhost:5000/donations");
+  const data = await res.json();
+  renderTable("donationTable", data);
+}
+
+document.getElementById("donationForm").addEventListener("submit", async e => {
+  e.preventDefault();
+  const donation = Object.fromEntries(new FormData(e.target).entries());
+  const res = await fetch("http://localhost:5000/add-donation", {
+    method: "POST",
+    headers: {"Content-Type":"application/json"},
+    body: JSON.stringify(donation)
+  });
+  const msg = await res.text();
+  document.getElementById("donationMessage").innerText = msg;
+  e.target.reset();
+  loadDonations();
+});
+
+loadDonations();
+</script>
+</body>
+</html>
